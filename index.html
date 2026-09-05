@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Srinivasmurthy GC's Website</title>
+  <style>
+    :root {
+      --bg: #07090e;
+      --panel: rgba(13, 17, 28, 0.78);
+      --panel-border: rgba(56, 189, 248, 0.15);
+      --cyan: #38bdf8;
+      --emerald: #34d399;
+      --violet: #818cf8;
+      --amber: #fbbf24;
+      --rose: #f43f5e;
+      --text-main: #f1f5f9;
+      --text-dim: #94a3b8;
+      --radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 2.5rem 1rem;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Background Grids & Glows */
+    .bg-grid {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .ambient-glow {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .glow-1 {
+      top: -120px; left: 15%; width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.12), transparent 70%);
+    }
+    .glow-2 {
+      bottom: -100px; right: 10%; width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(52, 211, 153, 0.1), transparent 70%);
+    }
+
+    .container {
+      max-width: 940px;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--panel);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      transition: border-color 0.25s ease;
+    }
+    .card:hover {
+      border-color: rgba(56, 189, 248, 0.35);
+    }
+
+    /* Hero */
+    .hero {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .avatar-wrapper {
+      position: relative;
+      flex-shrink: 0;
+      width: 160px;
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ring-svg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      animation: spin 20s linear infinite;
+    }
+
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+
+    .avatar-core {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      border: 2px solid rgba(56, 189, 248, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.2rem;
+      font-weight: 700;
+      color: var(--cyan);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(52, 211, 153, 0.08);
+      color: var(--emerald);
+      border: 1px solid rgba(52, 211, 153, 0.25);
+      border-radius: 999px;
+      padding: 0.25rem 0.8rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      margin-bottom: 0.6rem;
+    }
+
+    .radar-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--emerald);
+      box-shadow: 0 0 8px var(--emerald);
+    }
+
+    h1 {
+      font-size: 2.1rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .role-title {
+      color: var(--cyan);
+      font-size: 1.05rem;
+      font-weight: 500;
+      margin-top: 0.2rem;
+    }
+
+    .lead-text {
+      color: var(--text-dim);
+      font-size: 0.95rem;
+      margin-top: 0.75rem;
+      line-height: 1.6;
+    }
+
+    /* Section Headings */
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 1.25rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      padding-bottom: 0.6rem;
+    }
+
+    /* Banners & Sub-boxes */
+    .research-banner {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(52, 211, 153, 0.05));
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .research-label {
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      color: var(--cyan);
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+
+    .research-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.4;
+    }
+
+    .grid-duo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .sub-box {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .sub-box:last-child {
+      margin-bottom: 0;
+    }
+
+    .sub-box-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--cyan);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .sub-box p, .sub-box li {
+      font-size: 0.88rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+
+    .sub-box ul {
+      padding-left: 1.2rem;
+      margin-top: 0.35rem;
+    }
+
+    /* Badges */
+    .badge-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.6rem;
+    }
+
+    .badge {
+      font-size: 0.8rem;
+      padding: 0.3rem 0.65rem;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-main);
+    }
+
+    .badge-accent {
+      background: rgba(56, 189, 248, 0.08);
+      border-color: rgba(56, 189, 248, 0.3);
+      color: var(--cyan);
+      font-weight: 500;
+    }
+
+    .badge-model {
+      background: rgba(129, 140, 248, 0.08);
+      border-color: rgba(129, 140, 248, 0.3);
+      color: var(--violet);
+      font-weight: 500;
+    }
+
+    .badge-hw {
+      background: rgba(251, 191, 36, 0.08);
+      border-color: rgba(251, 191, 36, 0.3);
+      color: var(--amber);
+      font-weight: 500;
+    }
+
+    /* SVG Methodology Pipeline */
+    .arch-diagram {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 0.75rem;
+      margin: 1rem 0;
+    }
+
+    /* Timeline Component */
+    .timeline {
+      position: relative;
+      padding-left: 1.25rem;
+      border-left: 2px dashed rgba(255, 255, 255, 0.12);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .timeline-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -1.65rem;
+      top: 0.25rem;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 10px var(--cyan);
+    }
+
+    .timeline-dot.emerald {
+      background: var(--emerald);
+      box-shadow: 0 0 10px var(--emerald);
+    }
+
+    .timeline-dot.violet {
+      background: var(--violet);
+      box-shadow: 0 0 10px var(--violet);
+    }
+
+    .timeline-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .timeline-inst {
+      font-size: 0.88rem;
+      color: var(--cyan);
+      margin-top: 0.15rem;
+    }
+
+    .timeline-desc {
+      font-size: 0.825rem;
+      color: var(--text-dim);
+      margin-top: 0.25rem;
+    }
+
+    /* Project Cards */
+    .project-entry {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      padding: 1.4rem;
+      margin-bottom: 1.25rem;
+      transition: all 0.2s ease;
+    }
+
+    .project-entry:hover {
+      border-color: rgba(56, 189, 248, 0.3);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .project-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .project-period {
+      font-size: 0.8rem;
+      color: var(--cyan);
+      font-weight: 500;
+    }
+
+    .project-desc {
+      font-size: 0.88rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+      margin-bottom: 0.75rem;
+    }
+
+    /* Buttons */
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.55rem 1.1rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: 0.2s ease;
+    }
+
+    .btn-main {
+      background: linear-gradient(135deg, var(--cyan), var(--emerald));
+      color: #050811;
+      border: none;
+    }
+
+    .btn-main:hover {
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.4);
+      transform: translateY(-1px);
+    }
+
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.04);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Footer */
+    footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      font-size: 0.85rem;
+      color: var(--text-dim);
+    }
+
+    @media (max-width: 768px) {
+      .hero { flex-direction: column; align-items: flex-start; }
+      .grid-duo { grid-template-columns: 1fr; }
+      footer { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-grid"></div>
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+
+  <div class="container">
+
+    <!-- Header / Hero -->
+    <header class="card">
+      <div class="hero">
+        <div class="avatar-wrapper">
+          <svg class="ring-svg" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="46" fill="none" stroke="rgba(56, 189, 248, 0.3)" stroke-width="2" stroke-dasharray="8 6" />
+            <circle cx="50" cy="50" r="41" fill="none" stroke="rgba(52, 211, 153, 0.4)" stroke-width="1.5" stroke-dasharray="12 10" />
+          </svg>
+          <div class="avatar-core">SG</div>
+        </div>
+
+        <div>
+          <div class="status-badge">
+            <span class="radar-dot"></span>
+            Full-Time Ph.D. Research Scholar &bull; PES University &bull; Ring Road Campus &bull; BSK III Stage
+          </div>
+          <h1>Srinivasmurthy GC</h1>
+          <p class="role-title">Research Scholar in Deep Learning &amp; Smart Agriculture</p>
+          <p class="lead-text">
+            Doctoral researcher at PES University developing multimodal deep learning and IoT sensor telemetry frameworks for the early identification of <b>Ganoderma</b> root disease in arecanut plantations.
+          </p>
+
+          <div class="actions">
+            <a href="mailto:srinivasmurthygc@gmail.com" class="btn btn-main">
+              <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              Contact Scholar
+            </a>
+            <a href="#research" class="btn btn-ghost">Ph.D. Research</a>
+            <a href="#publications" class="btn btn-ghost">Publications</a>
+		 <a href="#certifications" class="btn btn-ghost">Certifications</a>
+            <a href="#projects" class="btn btn-ghost">Projects</a>
+            <a href="#education" class="btn btn-ghost">Education</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Doctoral Research Deep Dive -->
+    <section id="research" class="card">
+      <div class="research-banner">
+        <div class="research-label">Doctoral Research Framework</div>
+        <div class="research-title">
+          An Intelligent Decision Support System for Early Detection of Ganoderma Disease in Areca Cultivation
+        </div>
+      </div>
+
+      <!-- Problem & Gap Grid -->
+      <div class="grid-duo">
+        <div class="sub-box">
+          <div class="sub-box-title">
+            <svg width="16" height="16" fill="none" stroke="var(--cyan)" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Research Problem
+          </div>
+          <p>
+            Early detection of <b>Ganoderma</b> root disease in arecanut palm cultivation remains severely difficult because pathogen colonisation begins internally in the underground root system and basal stem before visible foliage discolouration emerges. By the time canopy symptoms appear, vascular decay is irreversible.
+          </p>
+        </div>
+
+        <div class="sub-box">
+          <div class="sub-box-title">
+            <svg width="16" height="16" fill="none" stroke="var(--amber)" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+            Research Gap
+          </div>
+          <p>
+            Existing agronomic studies focus heavily on post-symptomatic visual inspection or laboratory PCR tests. There is limited integration of real-time environmental IoT data with multimodal vision transformers and temporal recurrent networks for sub-clinical early diagnosis.
+          </p>
+        </div>
+      </div>
+
+      <!-- Objectives & Data Sources -->
+      <div class="grid-duo" style="margin-top: 1rem;">
+        <div class="sub-box">
+          <div class="sub-box-title">
+            <svg width="16" height="16" fill="none" stroke="var(--emerald)" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            Research Objectives
+          </div>
+          <ul>
+            <li>Preprocess areca image data and environmental IoT sensor telemetry to improve signal-to-noise ratio and guarantee dependable extraction.</li>
+            <li>Extract discriminative disease features across multimodal visual and temporal sensor streams to detect *Ganoderma* patterns.</li>
+            <li>Construct and evaluate an intelligent deep learning framework enabling pre-symptomatic early detection and agronomic decision support.</li>
+          </ul>
+        </div>
+
+        <div class="sub-box">
+          <div class="sub-box-title">
+            <svg width="16" height="16" fill="none" stroke="var(--violet)" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            Multimodal Data Sources
+          </div>
+          <ul>
+            <li><strong>Visual Data:</strong> Full-tree portraits, basal stem surfaces, crown/canopy density, and visible root-zone characteristics.</li>
+            <li><strong>Environmental IoT Telemetry:</strong> Soil moisture, soil temperature, air temperature, atmospheric humidity, and soil pH levels.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- SVG Methodology Pipeline -->
+      <div style="margin-top: 1.5rem;">
+        <div class="sub-box-title" style="margin-bottom: 0.5rem;">
+          <svg width="16" height="16" fill="none" stroke="var(--cyan)" stroke-width="2" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Methodology Pipeline
+        </div>
+        <!-- Compact Flowchart Pipeline SVG -->
+		<svg class="arch-diagram" viewBox="0 0 520 370" style="width: 100%; max-width: 480px; height: auto; display: block; margin: 1.25rem auto; background: rgba(0, 0, 0, 			0.25); border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.08); padding: 1rem 0.5rem;">
+  			<defs>
+  			  <linearGradient id="flowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+     				 <stop offset="0%" stop-color="#1e293b" />
+     				 <stop offset="100%" stop-color="#0f172a" />
+  			  </linearGradient>
+ 		 	</defs>
+	
+  <!-- 1. Top Inputs: Image Dataset & IoT Sensor Data -->
+  <rect x="40" y="15" width="180" height="38" rx="8" fill="url(#flowGrad)" stroke="#38bdf8" stroke-width="1.2" />
+  <text x="130" y="39" fill="#ffffff" font-size="12" font-weight="600" text-anchor="middle">Image Dataset</text>
+
+  <rect x="300" y="15" width="180" height="38" rx="8" fill="url(#flowGrad)" stroke="#38bdf8" stroke-width="1.2" />
+  <text x="390" y="39" fill="#ffffff" font-size="12" font-weight="600" text-anchor="middle">IoT Sensor Data</text>
+
+  <!-- Bracket Connector -->
+  <path d="M 130 53 L 130 72 L 390 72 L 390 53" fill="none" stroke="#38bdf8" stroke-width="1.5" />
+  <line x1="260" y1="72" x2="260" y2="92" stroke="#38bdf8" stroke-width="1.5" />
+  <polygon points="260,98 255,90 265,90" fill="#38bdf8" />
+
+  <!-- 2. Data Preprocessing -->
+  <rect x="140" y="98" width="240" height="38" rx="8" fill="url(#flowGrad)" stroke="#38bdf8" stroke-width="1.2" />
+  <text x="260" y="122" fill="#ffffff" font-size="12" font-weight="600" text-anchor="middle">Data Preprocessing</text>
+
+  <!-- Arrow to Feature Extraction -->
+  <line x1="260" y1="136" x2="260" y2="156" stroke="#38bdf8" stroke-width="1.5" />
+  <polygon points="260,162 255,154 265,154" fill="#38bdf8" />
+
+  <!-- 3. Feature Extraction -->
+  <rect x="140" y="162" width="240" height="38" rx="8" fill="url(#flowGrad)" stroke="#38bdf8" stroke-width="1.2" />
+  <text x="260" y="186" fill="#ffffff" font-size="12" font-weight="600" text-anchor="middle">Feature Extraction</text>
+
+  <!-- Arrow to Model Training -->
+  <line x1="260" y1="200" x2="260" y2="220" stroke="#818cf8" stroke-width="1.5" />
+  <polygon points="260,226 255,218 265,218" fill="#818cf8" />
+
+  <!-- 4. Model Training (evaluation metrics) -->
+  <rect x="110" y="226" width="300" height="38" rx="8" fill="url(#flowGrad)" stroke="#818cf8" stroke-width="1.2" />
+  <text x="260" y="250" fill="#ffffff" font-size="12" font-weight="600" text-anchor="middle">Model Training (evaluation metrics)</text>
+
+  <!-- Arrow to Results -->
+  <line x1="260" y1="264" x2="260" y2="284" stroke="#34d399" stroke-width="1.5" />
+  <polygon points="260,290 255,282 265,282" fill="#34d399" />
+
+  <!-- 5. Output Card -->
+  <rect x="60" y="290" width="400" height="62" rx="10" fill="url(#flowGrad)" stroke="#34d399" stroke-width="1.4" />
+  <text x="260" y="314" fill="#34d399" font-size="12" font-weight="700" text-anchor="middle">1. Early Ganoderma Disease Detection</text>
+  <text x="260" y="336" fill="#f1f5f9" font-size="11.5" font-weight="600" text-anchor="middle">2. Identification of Disease Risk Patterns</text>
+</svg>
+      </div>
+
+      <!-- Models & Technologies Grid -->
+      <div class="grid-duo" style="margin-top: 1rem;">
+        <div class="sub-box">
+          <div class="sub-box-title">Models Evaluated</div>
+          <div class="badge-wrap">
+            <span class="badge badge-model">EfficientNetB0 (Image Feature Extraction)</span>
+            <span class="badge badge-model">Vision Transformer / ViT (Visual Attention)</span>
+            <span class="badge badge-model">GRU (Temporal Sensor Analytics)</span>
+            <span class="badge badge-model">Convolutional Neural Networks (CNN)</span>
+            <span class="badge badge-model">Random Forest (Baseline Classifier)</span>
+          </div>
+        </div>
+
+        <div class="sub-box">
+          <div class="sub-box-title">Technologies &amp; Domain Concepts</div>
+          <div class="badge-wrap">
+            <span class="badge badge-accent">Internet of Things (IoT)</span>
+            <span class="badge badge-accent">Deep Learning</span>
+            <span class="badge badge-accent">Multimodal Data Fusion</span>
+            <span class="badge badge-accent">Image Processing</span>
+            <span class="badge badge-accent">Environmental Sensor Monitoring</span>
+            <span class="badge badge-accent">Feature Extraction</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Publications -->
+    <section id="publications" class="card">
+      <h2 class="section-title">
+        <svg width="20" height="20" fill="none" stroke="var(--cyan)" stroke-width="2" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        Publications &amp; Research Presentations
+      </h2>
+
+      <div class="project-entry">
+        <div class="project-header">
+          <div class="project-title">Steganography Awareness: Tool for Intra-State Balanced Digital Development</div>
+          <div class="project-period">Published &amp; Presented</div>
+        </div>
+        <p class="project-desc">
+          Presented at the National Seminar on <strong>"Balanced Development in India: Addressing Intra-State Regional Imbalances"</strong> organized by the <strong>Centre for Multi-disciplinary Development Research (CMDR)</strong> in Dharwad, Karnataka. Examines information concealment literacy, data protection mechanisms, and equitable digital growth frameworks across regional boundaries.
+        </p>
+        <div class="badge-wrap">
+          <span class="badge badge-accent">National Seminar</span>
+          <span class="badge badge-accent">CMDR Dharwad</span>
+          <span class="badge badge-accent">Steganography</span>
+          <span class="badge badge-accent">Digital Security</span>
+        </div>
+      </div>
+    </section>
+
+
+<!-- Trainings / Certifications -->
+    <section id="certifications" class="card">
+      <h2 class="section-title">
+        <!-- Certificate / Award SVG Icon -->
+        <svg width="20" height="20" fill="none" stroke="var(--cyan)" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+        Trainings / Certifications
+      </h2>
+
+      <div class="project-entry" style="margin-bottom: 0;">
+        <div class="project-header">
+          <div class="project-title">AWS Cloud Computing</div>
+          <div class="project-period">Dec 2024 – April 2025</div>
+        </div>
+        <p class="project-desc">
+          Don Bosco Skill Mission Bengaluru (Virtual Mode)
+        </p>
+        <div class="badge-wrap">
+          <span class="badge badge-accent">AWS</span>
+          <span class="badge badge-accent">Cloud Computing</span>
+          <span class="badge badge-model">Certification Training</span>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Technical Projects -->
+    <section id="projects" class="card">
+      <h2 class="section-title">
+        <svg width="20" height="20" fill="none" stroke="var(--emerald)" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+        Technical Projects &amp; Systems
+      </h2>
+
+      <!-- ARS Project -->
+      <div class="project-entry">
+        <div class="project-header">
+          <div class="project-title">Applicant Recruitment System (ARS)</div>
+          <div class="project-period">Jul 2024 – Oct 2024 &bull; Internship Project</div>
+        </div>
+        <p class="project-desc">
+          A full-featured module within the Human Resource Management System (HRMS) designed to structure, automate, and oversee end-to-end recruitment operations. Streamlines candidate profiling, interview lifecycle scheduling, stage evaluations, and administrative communications for corporate HR personnel.
+        </p>
+        <div class="badge-wrap">
+          <span class="badge badge-accent">React JS</span>
+          <span class="badge badge-accent">JavaScript</span>
+          <span class="badge badge-accent">HTML5</span>
+          <span class="badge badge-accent">CSS3</span>
+          <span class="badge badge-accent">HRMS Pipeline</span>
+        </div>
+      </div>
+
+      <!-- Fire Detection IoT Project -->
+      <div class="project-entry">
+        <div class="project-header">
+          <div class="project-title">Fire Detection System &amp; Auto Hosting Via Bluetooth Control Using IoT</div>
+          <div class="project-period">Mar 2024 – May 2024 &bull; Embedded IoT System</div>
+        </div>
+        <p class="project-desc">
+          An automated fire-alerting and suppression system designed to leverage IoT sensor arrays for early hazard mitigation. Incorporates flame sensing, wireless Bluetooth telemetry, automated vehicular navigation, and active relay-triggered water dispensing to isolate fires in hard-to-reach enclosures.
+        </p>
+        <div class="badge-wrap">
+          <span class="badge badge-hw">Arduino Uno</span>
+          <span class="badge badge-hw">Flame Sensor</span>
+          <span class="badge badge-hw">Bluetooth Module (HC-05)</span>
+          <span class="badge badge-hw">L298N Motor Driver</span>
+          <span class="badge badge-hw">BO Motors &amp; Wheels</span>
+          <span class="badge badge-hw">Servo Motor</span>
+          <span class="badge badge-hw">Relay Switch</span>
+          <span class="badge badge-hw">Water Pump</span>
+          <span class="badge badge-hw">Li-ion Battery Pack</span>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Academic Background -->
+    <section id="education" class="card">
+      <h2 class="section-title">
+        <svg width="20" height="20" fill="none" stroke="var(--cyan)" stroke-width="2" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        Academic Background
+      </h2>
+
+      <div class="timeline">
+        <!-- Ph.D. -->
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-title">Ph.D. in Computer Science &amp; Engineering (Research Scholar)</div>
+          <div class="timeline-inst">PES University, Bengaluru</div>
+          <div class="timeline-desc">
+            Enrolled May 2025 – Present &bull; Full-time Doctoral Research on Multimodal Deep Learning, Environmental IoT Telemetry, and Decision Support Systems for Areca Cultivation.
+          </div>
+        </div>
+
+
+        <!-- MCA -->
+        <div class="timeline-item">
+          <div class="timeline-dot emerald"></div>
+          <div class="timeline-title">Master of Computer Applications (MCA)</div>
+          <div class="timeline-inst">Tumkur University, Tumakuru</div>
+          <div class="timeline-desc">
+            Postgraduate specialisation in Advanced Software Systems, Algorithms, Machine Learning Foundations, and Web Engineering.
+          </div>
+        </div>
+
+        <!-- BCA -->
+        <div class="timeline-item">
+          <div class="timeline-dot violet"></div>
+          <div class="timeline-title">Bachelor of Computer Applications (BCA)</div>
+          <div class="timeline-inst">Vidya Vahini First Grade College (Affiliated to Tumkur University)</div>
+          <div class="timeline-desc">
+            Undergraduate foundations in Computer Applications, Database Management Systems, and Object-Oriented Programming.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="card">
+      <div>Bengaluru, Karnataka, India &bull; PES University Research Scholar</div>
+      <div>Multimodal Plant Disease Detection Framework &bull; 2026</div>
+    </footer>
+
+  </div>
+
+</body>
+</html>
