@@ -76,7 +76,7 @@
       gap: 1.75rem;
     }
 
-    /* Cards */
+    /* Cards (Cyan Beam Integrated) */
     .card {
       background: var(--panel);
       backdrop-filter: blur(16px);
@@ -85,10 +85,41 @@
       border-radius: var(--radius);
       padding: 2rem;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-      transition: border-color 0.25s ease;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease, border-color 0.25s ease, box-shadow 0.3s ease;
     }
+
+    /* Cyan Beam Light Sweep */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -150%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg, 
+        transparent 0%, 
+        rgba(255, 255, 255, 0.02) 30%, 
+        rgba(56, 189, 248, 0.22) 50%, 
+        rgba(255, 255, 255, 0.02) 70%, 
+        transparent 100%
+      );
+      transform: skewX(-20deg);
+      pointer-events: none;
+      transition: left 0.1s ease-out;
+    }
+
     .card:hover {
-      border-color: rgba(56, 189, 248, 0.35);
+      transform: translateY(-2px);
+      border-color: rgba(56, 189, 248, 0.45);
+      box-shadow: 0 14px 30px -10px rgba(56, 189, 248, 0.2), 0 0 20px rgba(56, 189, 248, 0.06);
+    }
+
+    .card:hover::before {
+      left: 175%;
+      transition: left 1.2s cubic-bezier(0.25, 1, 0.35, 1);
     }
 
     /* Hero */
@@ -454,7 +485,7 @@
       .grid-duo { grid-template-columns: 1fr; }
       footer { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
     }
-  </style>
+</style>
 </head>
 <body>
 
@@ -514,32 +545,131 @@
     </header>
 
 
-	  <!-- Recent Updates & Milestones -->
-<section id="news" class="card">
+
+
+<!-- 2. RESEARCH COLLABORATION & CONTACT FOOTER -->
+<!-- Academic Collaboration & Inquiries Section -->
+<section id="contact" class="card">
   <h2 class="section-title">
-    <svg width="20" height="20" fill="none" stroke="var(--cyan)" stroke-width="2" viewBox="0 0 24 24"><path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
-    Recent Updates &amp; Milestones
+    <svg width="20" height="20" fill="none" stroke="var(--cyan)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+      <rect width="20" height="16" x="2" y="4" rx="2"/>
+      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+    </svg>
+    Academic Collaboration &amp; Inquiries
   </h2>
 
-  <ul style="list-style: none; padding-left: 0; margin: 0; display: flex; flex-direction: column; gap: 12px;">
-    <li style="display: flex; gap: 12px; font-size: 14px; line-height: 1.5;">
-      <span style="color: #38bdf8; font-weight: 600; min-width: 80px;">Jan 2026</span>
-      <span style="color: #cbd5e1;">Presented research paper on <strong>Steganography Awareness</strong> at the National Seminar, CMDR, Dharwad.</span>
-    </li>
-    <li style="display: flex; gap: 12px; font-size: 14px; line-height: 1.5;">
-      <span style="color: #38bdf8; font-weight: 600; min-width: 80px;">May 2025</span>
-      <span style="color: #cbd5e1;">Enrolled as Full-Time Ph.D. Research Scholar at <strong>PES University</strong>, Bengaluru.</span>
-    </li>
-    <li style="display: flex; gap: 12px; font-size: 14px; line-height: 1.5;">
-      <span style="color: #38bdf8; font-weight: 600; min-width: 80px;">Dec 2024</span>
-      <span style="color: #cbd5e1;">Commenced <strong>AWS Cloud Computing</strong> technical specialization via Don Bosco Skill Mission.</span>
-    </li>
-  </ul>
+  <p style="color: var(--text-dim); font-size: 0.92rem; line-height: 1.6; margin-bottom: 1.25rem;">
+    Open to collaborative research in IoT telemetry, edge computing in smart agriculture, and deep learning diagnostics. Feel free to reach out for academic discussions or joint initiatives.
+  </p>
+
+  <div class="actions" style="margin-top: 0;">
+    <a href="mailto:srinivasmurthygc@gmail.com?subject=Research%20Collaboration%20Inquiry" class="btn btn-main">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"/>
+      </svg>
+      Send Research Email
+    </a>
+    <span style="font-size: 0.85rem; color: var(--text-dim); display: inline-flex; align-items: center; gap: 6px; padding-left: 6px;">
+      <svg width="15" height="15" fill="none" stroke="var(--cyan)" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+        <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+      </svg>
+      Bengaluru / Tumakuru, Karnataka, India
+    </span>
+  </div>
 </section>
-	  
+
+<!-- JAVASCRIPT FOR 1-CLICK COPY -->
+<script>
+  function copyBibtex() {
+    const text = document.getElementById("bibtexText").innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById("copyBtn");
+      btn.innerText = "Copied! ✓";
+      btn.style.background = "rgba(52, 211, 153, 0.2)";
+      btn.style.borderColor = "#34d399";
+      btn.style.color = "#34d399";
+      
+      setTimeout(() => {
+        btn.innerText = "Copy Citation";
+        btn.style.background = "rgba(56, 189, 248, 0.15)";
+        btn.style.borderColor = "rgba(56, 189, 248, 0.4)";
+        btn.style.color = "var(--accent-cyan)";
+      }, 2000);
+    });
+  }
+</script>
+
+
+
+<!-- Recent Updates & Milestones (Illuminated Track Timeline) -->
+<section id="news" class="card">
+  <div class="section-header">
+    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+    </svg>
+    Recent Updates &amp; Milestones
+  </div>
+
+  <div style="position: relative; padding-left: 28px; margin-top: 1rem;">
+    <!-- Vertical Glow Track Line -->
+    <div style="position: absolute; left: 7px; top: 8px; bottom: 8px; width: 2px; background: linear-gradient(180deg, var(--accent-cyan, #38bdf8), rgba(56, 189, 248, 0.15) 85%, transparent);"></div>
+
+    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+
+      <!-- Milestone 1 -->
+      <div style="position: relative; transition: transform 0.2s ease;" onmouseenter="this.style.transform='translateX(4px)'" onmouseleave="this.style.transform='translateX(0)'">
+        <span style="position: absolute; left: -28px; top: 4px; width: 14px; height: 14px; border-radius: 50%; background: #070b14; border: 2px solid var(--accent-cyan, #38bdf8); box-shadow: 0 0 10px var(--accent-cyan, #38bdf8); z-index: 2;"></span>
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+          <span style="font-size: 0.78rem; font-weight: 700; color: var(--accent-cyan, #38bdf8); letter-spacing: 0.5px;">JAN 2026</span>
+          <span style="font-size: 0.7rem; font-weight: 600; padding: 2px 7px; border-radius: 4px; background: rgba(56, 189, 248, 0.12); color: var(--accent-cyan, #38bdf8); border: 1px solid rgba(56, 189, 248, 0.25);">CONFERENCE</span>
+        </div>
+        <p style="margin: 0; font-size: 0.88rem; line-height: 1.5; color: #e2e8f0;">
+          Presented research on <strong style="color: #fff;">Steganography Awareness and Digital Growth</strong> at the National Seminar, CMDR, Dharwad.
+        </p>
+      </div>
+
+      <!-- Milestone 2: Updated Ph.D. Enrollment -->
+      <div style="position: relative; transition: transform 0.2s ease;" onmouseenter="this.style.transform='translateX(4px)'" onmouseleave="this.style.transform='translateX(0)'">
+        <span style="position: absolute; left: -28px; top: 4px; width: 14px; height: 14px; border-radius: 50%; background: #070b14; border: 2px solid var(--accent-emerald, #34d399); box-shadow: 0 0 10px var(--accent-emerald, #34d399); z-index: 2;"></span>
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+          <span style="font-size: 0.78rem; font-weight: 700; color: var(--accent-emerald, #34d399); letter-spacing: 0.5px;">MAY 2025</span>
+          <span style="font-size: 0.7rem; font-weight: 600; padding: 2px 7px; border-radius: 4px; background: rgba(52, 211, 153, 0.12); color: var(--accent-emerald, #34d399); border: 1px solid rgba(52, 211, 153, 0.25);">DOCTORAL ENROLLMENT</span>
+        </div>
+        <p style="margin: 0; font-size: 0.88rem; line-height: 1.5; color: #e2e8f0;">
+          Enrolled in the Ph.D. program in Computer Science &amp; Engineering at <strong style="color: #fff;">PES University</strong>, Bengaluru.
+        </p>
+      </div>
+
+      <!-- Milestone 3 -->
+      <div style="position: relative; transition: transform 0.2s ease;" onmouseenter="this.style.transform='translateX(4px)'" onmouseleave="this.style.transform='translateX(0)'">
+        <span style="position: absolute; left: -28px; top: 4px; width: 14px; height: 14px; border-radius: 50%; background: #070b14; border: 2px solid #a78bfa; box-shadow: 0 0 10px rgba(167, 139, 250, 0.6); z-index: 2;"></span>
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+          <span style="font-size: 0.78rem; font-weight: 700; color: #a78bfa; letter-spacing: 0.5px;">DEC 2024</span>
+          <span style="font-size: 0.7rem; font-weight: 600; padding: 2px 7px; border-radius: 4px; background: rgba(167, 139, 250, 0.12); color: #a78bfa; border: 1px solid rgba(167, 139, 250, 0.25);">CERTIFICATION</span>
+        </div>
+        <p style="margin: 0; font-size: 0.88rem; line-height: 1.5; color: #e2e8f0;">
+          Commenced <strong style="color: #fff;">AWS Cloud Computing</strong> technical specialization via Don Bosco Skill Mission.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
 
     <!-- Doctoral Research Deep Dive -->
     <section id="research" class="card">
+
+	<h2 class="section-title">
+        <svg width="20" height="20" fill="none" stroke="var(--cyan)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
+          <path d="M4 17h16"/>
+        </svg>
+        Research Area
+      </h2>
+
       <div class="research-banner">
         <div class="research-label">Doctoral Research Framework</div>
         <div class="research-title">
@@ -704,6 +834,59 @@
         </div>
       </div>
     </section>
+
+
+<!-- Cite Recent Paper Section -->
+<section id="cite" class="card">
+  <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.06); padding-bottom: 0.6rem; margin-bottom: 1.25rem;">
+    <h2 class="section-title" style="border-bottom: none; padding-bottom: 0; margin-bottom: 0;">
+      <svg width="20" height="20" fill="none" stroke="var(--cyan)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+        <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+        <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+      </svg>
+      Cite Recent Paper
+    </h2>
+
+    <!-- Copy Button -->
+    <button id="copyBtn" onclick="copyBibtex()" style="background: rgba(56, 189, 248, 0.12); color: var(--cyan); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 8px; padding: 6px 14px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px;">
+      Copy Citation
+    </button>
+  </div>
+
+  <p style="color: var(--text-dim); font-size: 0.88rem; margin-bottom: 0.85rem;">
+    Use this citation for reference in LaTeX documents or citation managers:
+  </p>
+
+  <pre id="bibtexText" style="background: rgba(0, 0, 0, 0.45); border: 1px solid rgba(255, 255, 255, 0.07); padding: 1.1rem; border-radius: 10px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.8rem; color: #cbd5e1; overflow-x: auto; line-height: 1.55; margin: 0;">@inproceedings{srinivasmurthy2026steganography,
+  author    = {Srinivasmurthy, G. C.},
+  title     = {Steganography Awareness and Digital Growth},
+  booktitle = {Proceedings of the National Seminar on Growth and Transformation},
+  publisher = {Centre for Multi-Disciplinary Development Research (CMDR)},
+  address   = {Dharwad, Karnataka, India},
+  year      = {2026}
+}</pre>
+</section>
+
+<!-- Script for Copy Button Feedback -->
+<script>
+  function copyBibtex() {
+    const text = document.getElementById("bibtexText").innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById("copyBtn");
+      btn.innerText = "Copied! ✓";
+      btn.style.background = "rgba(52, 211, 153, 0.2)";
+      btn.style.borderColor = "var(--emerald)";
+      btn.style.color = "var(--emerald)";
+      
+      setTimeout(() => {
+        btn.innerText = "Copy Citation";
+        btn.style.background = "rgba(56, 189, 248, 0.12)";
+        btn.style.borderColor = "rgba(56, 189, 248, 0.35)";
+        btn.style.color = "var(--cyan)";
+      }, 2000);
+    });
+  }
+</script>
 
 
 <!-- Trainings / Certifications -->
