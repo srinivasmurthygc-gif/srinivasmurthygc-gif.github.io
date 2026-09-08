@@ -248,14 +248,23 @@
       gap: 1.5rem;
     }
 
-    .sub-box {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 10px;
-      padding: 1.25rem;
-      margin-bottom: 1rem;
-    }
+    /* Sub-box default and hover transition */
+.sub-box {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
 
+/* Glowing illuminated border on cursor hover */
+.sub-box:hover {
+  border-color: rgba(56, 189, 248, 0.5);
+  background: rgba(56, 189, 248, 0.03);
+  box-shadow: 0 6px 20px -4px rgba(56, 189, 248, 0.18), 0 0 12px rgba(56, 189, 248, 0.08);
+  transform: translateY(-2px);
+}
     .sub-box:last-child {
       margin-bottom: 0;
     }
@@ -963,51 +972,78 @@
     </section>
 
 
-    <!-- Academic Background -->
-    <section id="education" class="card">
-      <h2 class="section-title">
-        <svg width="20" height="20" fill="none" stroke="var(--cyan)" stroke-width="2" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-        Academic Background
-      </h2>
+<!-- Academic Background (Illuminated Track Timeline) -->
+<section id="education" class="card">
+  <div class="section-header">
+    <!-- Academic Graduation Cap Icon -->
+    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path d="M12 14l9-5-9-5-9 5 9 5z"/>
+      <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/>
+    </svg>
+    Academic Background
+  </div>
 
-      <div class="timeline">
-        <!-- Ph.D. -->
-        <div class="timeline-item">
-          <div class="timeline-dot"></div>
-          <div class="timeline-title">Ph.D. in Computer Science &amp; Engineering (Research Scholar)</div>
-          <div class="timeline-inst">PES University, Bengaluru</div>
-          <div class="timeline-desc">
-            Enrolled May 2025 – Present &bull; Full-time Doctoral Research on Multimodal Deep Learning, Environmental IoT Telemetry, and Decision Support Systems for Areca Cultivation.
-          </div>
+  <div style="position: relative; padding-left: 28px; margin-top: 1rem;">
+    <!-- Vertical Glow Track Line -->
+    <div style="position: absolute; left: 7px; top: 8px; bottom: 8px; width: 2px; background: linear-gradient(180deg, var(--accent-cyan, #38bdf8), rgba(56, 189, 248, 0.15) 85%, transparent);"></div>
+
+    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+
+      <!-- Education 1: Ph.D. -->
+      <div style="position: relative; transition: transform 0.2s ease;" onmouseenter="this.style.transform='translateX(4px)'" onmouseleave="this.style.transform='translateX(0)'">
+        <!-- Glowing Cyan Node -->
+        <span style="position: absolute; left: -28px; top: 4px; width: 14px; height: 14px; border-radius: 50%; background: #070b14; border: 2px solid var(--accent-cyan, #38bdf8); box-shadow: 0 0 10px var(--accent-cyan, #38bdf8); z-index: 2;"></span>
+        
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 4px;">
+          <span style="font-size: 0.7rem; font-weight: 600; padding: 2px 7px; border-radius: 4px; background: rgba(56, 189, 248, 0.12); color: var(--accent-cyan, #38bdf8); border: 1px solid rgba(56, 189, 248, 0.25);">DOCTORAL CANDIDATE</span>
+          <span style="font-size: 0.78rem; font-weight: 700; color: var(--accent-cyan, #38bdf8); letter-spacing: 0.5px; margin-left: auto;">[MAY 2025 – PRESENT]</span>
         </div>
-
-
-        <!-- MCA -->
-        <div class="timeline-item">
-          <div class="timeline-dot emerald"></div>
-          <div class="timeline-title">Master of Computer Applications (MCA)</div>
-          <div class="timeline-inst">Tumkur University, Tumakuru</div>
-          <div class="timeline-desc">
-            Postgraduate specialisation in Advanced Software Systems, Algorithms, Machine Learning Foundations, and Web Engineering.
-          </div>
-        </div>
-
-        <!-- BCA -->
-        <div class="timeline-item">
-          <div class="timeline-dot violet"></div>
-          <div class="timeline-title">Bachelor of Computer Applications (BCA)</div>
-          <div class="timeline-inst">Vidya Vahini First Grade College (Affiliated to Tumkur University)</div>
-          <div class="timeline-desc">
-            Undergraduate foundations in Computer Applications, Database Management Systems, and Object-Oriented Programming.
-          </div>
-        </div>
+        <h4 style="margin: 0; font-size: 0.95rem; font-weight: 600; color: #ffffff;">Ph.D. in Computer Science &amp; Engineering</h4>
+        <p style="margin: 2px 0 0 0; font-size: 0.85rem; color: #94a3b8;">
+          Department of Computer Science &amp; Engineering &bull; <strong>PES University</strong>, Bengaluru
+        </p>
       </div>
-    </section>
+
+      <!-- Education 2: MCA -->
+      <div style="position: relative; transition: transform 0.2s ease;" onmouseenter="this.style.transform='translateX(4px)'" onmouseleave="this.style.transform='translateX(0)'">
+        <!-- Glowing Emerald Node -->
+        <span style="position: absolute; left: -28px; top: 4px; width: 14px; height: 14px; border-radius: 50%; background: #070b14; border: 2px solid var(--accent-emerald, #34d399); box-shadow: 0 0 10px var(--accent-emerald, #34d399); z-index: 2;"></span>
+        
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 4px;">
+          <span style="font-size: 0.7rem; font-weight: 600; padding: 2px 7px; border-radius: 4px; background: rgba(52, 211, 153, 0.12); color: var(--accent-emerald, #34d399); border: 1px solid rgba(52, 211, 153, 0.25);">MCA DEGREE</span>
+          <span style="font-size: 0.78rem; font-weight: 700; color: var(--accent-emerald, #34d399); letter-spacing: 0.5px; margin-left: auto;">[FEB 2022 - DEC 2024]</span>
+        </div>
+        <h4 style="margin: 0; font-size: 0.95rem; font-weight: 600; color: #ffffff;">Master of Computer Applications (MCA)</h4>
+        <p style="margin: 2px 0 0 0; font-size: 0.85rem; color: #94a3b8;">
+          <strong>Tumkur University</strong>, Tumakuru, Karnataka
+        </p>
+      </div>
+
+      <!-- Education 3: BCA -->
+      <div style="position: relative; transition: transform 0.2s ease;" onmouseenter="this.style.transform='translateX(4px)'" onmouseleave="this.style.transform='translateX(0)'">
+        <!-- Glowing Violet Node -->
+        <span style="position: absolute; left: -28px; top: 4px; width: 14px; height: 14px; border-radius: 50%; background: #070b14; border: 2px solid #a78bfa; box-shadow: 0 0 10px rgba(167, 139, 250, 0.6); z-index: 2;"></span>
+        
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 4px;">
+          <span style="font-size: 0.7rem; font-weight: 600; padding: 2px 7px; border-radius: 4px; background: rgba(167, 139, 250, 0.12); color: #a78bfa; border: 1px solid rgba(167, 139, 250, 0.25);">BCA DEGREE</span>
+          <span style="font-size: 0.78rem; font-weight: 700; color: #a78bfa; letter-spacing: 0.5px; margin-left: auto;">[JUNE 2019 - OCT 2022]</span>
+        </div>
+        <h4 style="margin: 0; font-size: 0.95rem; font-weight: 600; color: #ffffff;">Bachelor of Computer Applications (BCA)</h4>
+        <p style="margin: 2px 0 0 0; font-size: 0.85rem; color: #94a3b8;">
+          Vidya Vahini First Grade College &bull; <strong>Tumkur University</strong>
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
 
     <!-- Footer -->
     <footer class="card">
-      <div>Bengaluru, Karnataka, India &bull; PES University Research Scholar</div>
-      <div>Multimodal Plant Disease Detection Framework &bull; 2026</div>
+      <div>PES University Research Scholar &bull; Bengaluru, Karnataka, India  </div>
+      <div>&copy; 2026 Srinivasmurthy G C. All rights reserved.</div>
     </footer>
 
   </div>
