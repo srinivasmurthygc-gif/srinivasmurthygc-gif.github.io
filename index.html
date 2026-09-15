@@ -328,6 +328,22 @@
       font-weight: 500;
     }
 
+	  .live-clock-badge {
+		  display: inline-flex;
+		  align-items: center;
+		  justify-content: center;
+		  background-color: #15803d; /* Vibrant forest green matching your image */
+		  color: #ffffff;
+		  font-weight: 700;
+		  font-size: 0.82rem;
+		  letter-spacing: 0.2px;
+		  padding: 7px 18px;
+		  border-radius: 9999px;
+		  box-shadow: 0 4px 14px rgba(21, 128, 61, 0.35);
+		  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+		  user-select: none;
+		}
+
     /* SVG Methodology Pipeline */
     .arch-diagram {
       width: 100%;
@@ -520,6 +536,46 @@
             <span class="radar-dot"></span>
             Full-Time Ph.D. Research Scholar &bull; PES University &bull; Ring Road Campus &bull; BSK III Stage
           </div>
+
+			
+			<!-- HTML & Script (No inline styles) -->
+			<div id="live-clock" class="live-clock"></div>
+			
+			<script>
+			  function updateLiveClock() {
+			    const now = new Date();
+			
+			    const hours = String(now.getHours()).padStart(2, '0');
+			    const minutes = String(now.getMinutes()).padStart(2, '0');
+			    const seconds = String(now.getSeconds()).padStart(2, '0');
+			
+			    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+			    const months = [
+			      'January', 'February', 'March', 'April', 'May', 'June',
+			      'July', 'August', 'September', 'October', 'November', 'December'
+			    ];
+			
+			    const dayName = days[now.getDay()];
+			    const monthName = months[now.getMonth()];
+			    const day = now.getDate();
+			    const year = now.getFullYear();
+			
+			    const offsetTotal = -now.getTimezoneOffset();
+			    const sign = offsetTotal >= 0 ? '+' : '-';
+			    const offsetHours = String(Math.floor(Math.abs(offsetTotal) / 60)).padStart(2, '0');
+			    const offsetMins = String(Math.abs(offsetTotal) % 60).padStart(2, '0');
+			    const gmtString = `GMT ${sign}${offsetHours}:${offsetMins}`;
+			
+			    const el = document.getElementById('live-clock');
+			    if (el) {
+			      el.textContent = `${hours}:${minutes}:${seconds} ${dayName}, ${monthName} ${day}, ${year} (${gmtString})`;
+			    }
+			  }
+			
+			  updateLiveClock();
+			  setInterval(updateLiveClock, 1000);
+			</script>
+			
           <h1>Srinivasmurthy GC</h1>
           <p class="role-title">Research Scholar in Deep Learning &amp; Smart Agriculture</p>
           <p class="lead-text">
