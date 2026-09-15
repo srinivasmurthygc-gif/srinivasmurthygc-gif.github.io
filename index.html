@@ -328,7 +328,7 @@
       font-weight: 500;
     }
 
-	  .live-clock-badge {
+	  .live-clock {
 		  display: inline-flex;
 		  align-items: center;
 		  justify-content: center;
@@ -541,11 +541,19 @@
 			<!-- HTML & Script (No inline styles) -->
 			<div id="live-clock" class="live-clock"></div>
 			
+			<!-- HTML & Script (12-Hour format with AM / PM) -->
+			<div id="live-clock" class="live-clock"></div>
+			
 			<script>
 			  function updateLiveClock() {
 			    const now = new Date();
 			
-			    const hours = String(now.getHours()).padStart(2, '0');
+			    // 12-hour format calculation with AM/PM
+			    let rawHours = now.getHours();
+			    const ampm = rawHours >= 12 ? 'PM' : 'AM';
+			    rawHours = rawHours % 12;
+			    const hours = String(rawHours ? rawHours : 12).padStart(2, '0');
+			
 			    const minutes = String(now.getMinutes()).padStart(2, '0');
 			    const seconds = String(now.getSeconds()).padStart(2, '0');
 			
@@ -560,6 +568,7 @@
 			    const day = now.getDate();
 			    const year = now.getFullYear();
 			
+			    // Timezone Offset (e.g., GMT +05:30)
 			    const offsetTotal = -now.getTimezoneOffset();
 			    const sign = offsetTotal >= 0 ? '+' : '-';
 			    const offsetHours = String(Math.floor(Math.abs(offsetTotal) / 60)).padStart(2, '0');
@@ -568,7 +577,7 @@
 			
 			    const el = document.getElementById('live-clock');
 			    if (el) {
-			      el.textContent = `${hours}:${minutes}:${seconds} ${dayName}, ${monthName} ${day}, ${year} (${gmtString})`;
+			      el.textContent = `${hours}:${minutes}:${seconds} ${ampm} ${dayName}, ${monthName} ${day}, ${year} (${gmtString})`;
 			    }
 			  }
 			
