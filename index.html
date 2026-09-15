@@ -44,14 +44,24 @@
 
 
 @media (max-width: 768px) {
-      /* 1. Fix Top Navbar Squishing */
+      /* 1. Fix Top Navbar for Mobile */
       .top-navbar {
-        flex-direction: column; /* Stacks name on top, buttons below */
+        flex-direction: column; 
         justify-content: center;
         text-align: center;
-        gap: 1rem;
+        gap: 0.75rem;
         padding: 1rem;
       }
+      
+      /* Make sure your name is forced to show and centered */
+      .nav-brand {
+        display: block !important;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #ffffff;
+        letter-spacing: 0.3px;
+      }
+
       .nav-links {
         justify-content: center;
       }
@@ -63,10 +73,11 @@
         text-align: center; 
       }
       
-      /* 3. Scale down the Avatar slightly for phones */
+      /* 3. Scale down and perfectly center the Avatar for phones */
       .avatar-wrapper { 
         width: 150px; 
         height: 150px; 
+        margin: 0 auto 1.5rem auto; 
       }
       .avatar-core { 
         width: 120px; 
@@ -88,7 +99,6 @@
         gap: 0.75rem; 
       }
     }
-
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -575,18 +585,17 @@
 
   <div class="container">
 
-    <!-- Top Navigation Bar Matching the Images -->
-<nav class="top-navbar">
-  <div class="nav-brand">Srinivasmurthy G C</div>
-  <div class="nav-links">
-    <a href="#research" class="nav-item">Ph.D. Research</a>
-    <a href="#publications" class="nav-item">Publications</a>
-    <a href="#certifications" class="nav-item">Certifications</a>
-    <a href="#projects" class="nav-item">Projects</a>
-    <a href="#education" class="nav-item">Education</a>
-  </div>
-</nav>
-
+    <!-- Top Navigation Bar -->
+    <nav class="top-navbar">
+      <div class="nav-brand">Srinivasmurthy G C</div>
+      <div class="nav-links">
+        <a href="#research" class="nav-item">Ph.D. Research</a>
+        <a href="#publications" class="nav-item">Publications</a>
+        <a href="#certifications" class="nav-item">Certifications</a>
+        <a href="#projects" class="nav-item">Projects</a>
+        <a href="#education" class="nav-item">Education</a>
+      </div>
+    </nav>
 
     <header class="card">
       <div class="hero">
